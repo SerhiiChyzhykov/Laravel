@@ -45,7 +45,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/') }}">Home</a></li>
                     <li><a href="{{ url('/categories') }}">Categories</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
@@ -61,16 +61,14 @@
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
-                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#" >Gallery <span class="badge">{{ $counts }}</span></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                           Hello, {{ Auth::user()->name }} <span class="caret"></span>
-                       </a>
-                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
+                         Hello, {{ Auth::user()->name }} <span class="caret"></span>
+                     </a>
+                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ url('/add') }}">New Photo</a></li>
+                        <li><a href="#">Profile</a></li>
                         <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                     </ul>
                 </li>
@@ -79,8 +77,9 @@
         </div>
     </div>
 </nav>
-
-@yield('content')
+<div class="container">
+    @yield('content')
+</div>
 
 <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
