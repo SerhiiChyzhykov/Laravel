@@ -49,3 +49,26 @@ Route::delete('/task/{task}', function (Task $task) {
 
     return redirect('/');
 });
+Route::auth();
+
+Route::get('/home', function (){
+$photos = DB::table('photos as p')
+            ->join('categories as c', 'p.category_id', '=', 'c.id')
+            ->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )->paginate(1);
+    return view('home', [
+        'photos' => $photos,
+
+    ]);
+});
+
+Route::auth();
+
+Route::get('/home', function (){
+$photos = DB::table('photos as p')
+            ->join('categories as c', 'p.category_id', '=', 'c.id')
+            ->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )->paginate(1);
+    return view('home', [
+        'photos' => $photos,
+
+    ]);
+});
