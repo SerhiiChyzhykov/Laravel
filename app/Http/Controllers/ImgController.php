@@ -10,6 +10,7 @@ use Redirect;
 use Session;
 use App\Category;
 use App\Photos;
+use App\Post;
 use Auth;
 use DB;
 
@@ -152,8 +153,6 @@ class ImgController extends Controller
     			'counts' => $counts,
     			'photos' => $photos,
     			]);
-
-    		
     	}
 
     	public function Images(Request $request)
@@ -173,11 +172,10 @@ class ImgController extends Controller
     		$category = DB::table('categories')
     		->get();
 
-    		$messages = DB::table('post as p')
+    		$messages = DB::table('posts as p')
     		->join('users as u', 'u.id', '=', 'p.user_id')
     		->select('p.post', 'p.id', 'p.user_id', 'p.photo_id', 'u.id as user_id',  'u.name as username' )
-    		->where('p.photo_id', $request->id)->get();;
-
+    		->where('p.photo_id', $request->id)->take(5)->get();
 
     		return view('photos/images', [
     			'counts' => $counts,
@@ -196,6 +194,24 @@ class ImgController extends Controller
     		else:
     			$counts ='';
     		endif;
+
+    		$cat_id = DB::table('categories')
+    		->count();
+
+    		$rand = rand(1,$cat_id);
+
+    		$cat = DB::table('categories')
+    		->get();
+
+    		$photos = DB::table('photos')
+    	->take(4)->get();
+
+    		return view('photos/categories', [
+    			'counts' => $counts,
+    			'photos' => $photos,
+    			'cat' => $cat,
+    			'cat_id' => $cat_id,
+    			]);
     	}
 
     	public function Category(Request $request)
@@ -207,5 +223,29 @@ class ImgController extends Controller
     		else:
     			$counts ='';
     		endif;
+
+    		$perpage = 8 ; 
+
+    		$photos = DB::table('photos as p')
+    		->join('categories as c', 'p.category_id', '=', 'c.id')
+    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+    		->where('p.category_id', $request->id)->paginate($perpage);
+
+    		return view('photos/category', [
+    			'counts' => $counts,
+    			'photos' => $photos,
+    			]);
+    	}
+
+    	public function Messages(Request $request)
+    	{
+    		
+    		$post = new Post;
+    		$post->post = $request->post;
+    		$post->user_id = Auth::user()->id;
+    		$post->photo_id = $request->photo;
+    		$post->save();
+    		Session::flash('successfully', 'Upload successfully'); 
+    	   	return Redirect::to('photo/'.$request->photo);
     	}
     }

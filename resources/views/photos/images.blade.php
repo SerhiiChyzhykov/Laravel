@@ -12,7 +12,7 @@
 		</div>
 		@if ($row->user_id == Auth::user()->id)
 		<form action="" method="POST" role="form" name="delete">
-			<input type="hidden" name="delete" value="{{$row->id}}">
+			<input type="hidden" name="delete" value="{{$photo = $row->id}}">
 			<button type="submit" class="btn btn-primary" style="float: right; margin-left: 5px;">Delete</button>
 		</form>
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" style="float: right; margin-left: 5px;">Eddit</button>
@@ -73,9 +73,11 @@
 				<h3 class="panel-title">Comment form</h3>
 			</div>
 			<div class="panel-body">
-				<form action="" method="POST" role="form" name="post">
+				<form action="{{ url('messages') }}" method="POST" role="form" name="form">
 					<div class="form-group">
 						<label for="">Message:</label>
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="photo" value="{{ $photo }}">
 						<input type="text" name="post" class="form-control" id="" required="required">
 					</div>
 					<button type="submit" name="send" class="btn btn-primary">Send</button>
