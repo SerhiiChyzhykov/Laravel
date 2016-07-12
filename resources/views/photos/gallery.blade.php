@@ -10,7 +10,7 @@
         <div class="thumbnail" >
             <div class="caption" style = "height: 140px;" >
                 <a href='/photo?id={{ $row->id}}'>
-                    <img src='{{ $row->images}}' title='увеличить' style="height: 155px;">
+                    <img src='/{{ $row->images}}' title='увеличить' style="height: 155px;">
                 </a>
             </div>
             <div class="caption">

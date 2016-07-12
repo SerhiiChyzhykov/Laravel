@@ -15,6 +15,7 @@ use DB;
 
 class ImgController extends Controller
 {
+
     /**
      * Show the application dashboard.
      *
@@ -45,7 +46,7 @@ class ImgController extends Controller
     		$photos->user_id = Auth::user()->id;
     		$photos->images = $files;
     		$photos->save();
-    		
+
     		Session::flash('Upload successfully', 'Upload successfully'); 
     		return Redirect::to('add');
 
@@ -111,8 +112,100 @@ class ImgController extends Controller
     			]);
     	}
 
-    	public function Search(Request $request)
+    	public function Gallery(Request $request)
     	{
+    		if(Auth::user()):
+    			$counts = DB::table('photos')
+    		->where('user_id', Auth::user()->id)
+    		->count();
+    		$perpage = 8;
+    		$photos = DB::table('photos as p')
+    		->join('categories as c', 'p.category_id', '=', 'c.id')
+    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+    		->where('p.user_id', Auth::user()->id)->paginate($perpage);
     		
+
+    		return view('photos/gallery', [
+    			'counts' => $counts,
+    			'photos' => $photos,
+    			]);
+
+    		endif;
+    	}
+
+    	public function GalleryId(Request $request)
+    	{
+    		if(Auth::user()):
+    			$counts = DB::table('photos')
+    		->where('user_id', Auth::user()->id)
+    		->count();
+    		else:
+    			$counts ="";
+    		endif;
+    		$perpage = 8;
+    		$photos = DB::table('photos as p')
+    		->join('categories as c', 'p.category_id', '=', 'c.id')
+    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+    		->where('p.user_id', $request->id)->paginate($perpage);
+
+    		return view('photos/gallery', [
+    			'counts' => $counts,
+    			'photos' => $photos,
+    			]);
+
+    		
+    	}
+
+    	public function Images(Request $request)
+    	{
+    		if(Auth::user()):
+    			$counts = DB::table('photos')
+    		->where('user_id', Auth::user()->id)
+    		->count();
+    		else:
+    			$counts ='';
+    		endif;
+
+    		$photos = DB::table('photos')
+    		->where('id', $request->id)
+    		->get();
+
+    		$category = DB::table('categories')
+    		->get();
+
+    		$messages = DB::table('post as p')
+    		->join('users as u', 'u.id', '=', 'p.user_id')
+    		->select('p.post', 'p.id', 'p.user_id', 'p.photo_id', 'u.id as user_id',  'u.name as username' )
+    		->where('p.photo_id', $request->id)->get();;
+
+
+    		return view('photos/images', [
+    			'counts' => $counts,
+    			'photos' => $photos,
+    			'category' => $category,
+    			'messages' => $messages,
+    			]);
+    	}
+
+    	public function Categories(Request $request)
+    	{
+    		if(Auth::user()):
+    			$counts = DB::table('photos')
+    		->where('user_id', Auth::user()->id)
+    		->count();
+    		else:
+    			$counts ='';
+    		endif;
+    	}
+
+    	public function Category(Request $request)
+    	{
+    		if(Auth::user()):
+    			$counts = DB::table('photos')
+    		->where('user_id', Auth::user()->id)
+    		->count();
+    		else:
+    			$counts ='';
+    		endif;
     	}
     }

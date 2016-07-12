@@ -21,6 +21,11 @@ Route::get('adds', function() {
 Route::post('adds', 'ImgController@Upload');
 Route::get('add', 'ImgController@Add');
 
+Route::get('gallery', 'ImgController@Gallery');
+
+Route::get('gallery/{id}', 'ImgController@GalleryId');
+
+Route::get('photo/{id}', 'ImgController@Images');
 
 /**
  * Delete Task
