@@ -50,7 +50,7 @@
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" class="form-control" placeholder="Search" name="s">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -77,6 +77,7 @@
         </div>
     </div>
 </nav>
+  @include('common.errors')
 <div class="container">
     @yield('content')
 </div>

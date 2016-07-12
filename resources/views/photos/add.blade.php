@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
- @include('common.errors')
+ 
 <form action="{{ url('/adds') }}" method="POST" role="form" enctype="multipart/form-data" name="form">
     <legend>Add img</legend>
   {{ csrf_field() }}

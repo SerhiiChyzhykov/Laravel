@@ -42,6 +42,7 @@
     @endforeach
 </div>
 </div>
+
 <center>
     {!! $photos->render() !!}
 </center>
