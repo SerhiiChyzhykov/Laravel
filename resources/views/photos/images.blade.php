@@ -5,14 +5,14 @@
 	<div class="col-xs-1 col-sm-1 col-md-1 ">
 	</div>
 	@foreach ($photos as $row)
-
+<?php $photo =  $row->id; ?>
 	<div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
 		<div class="thumbnail">
 			<img src='../{{$row->images}}' width="600" hight="600" />
 		</div>
-		@if ($row->user_id == Auth::user()->id)
+		@if ($login == $row->user_id)
 		<form action="" method="POST" role="form" name="delete">
-			<input type="hidden" name="delete" value="{{$photo = $row->id}}">
+			<input type="hidden" name="delete" value="{{$row->id}}">
 			<button type="submit" class="btn btn-primary" style="float: right; margin-left: 5px;">Delete</button>
 		</form>
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" style="float: right; margin-left: 5px;">Eddit</button>

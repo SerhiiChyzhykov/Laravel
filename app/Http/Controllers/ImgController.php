@@ -17,235 +17,238 @@ use DB;
 class ImgController extends Controller
 {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function Upload(Request $request)
-    {
-    	$validator = Validator::make($request->all(), [
-    		'title' => 'required|max:255',
-    		'description' => 'required|max:255',
-    		'categories'  => 'required|max:255',
-    		]);
-    	if ($validator->fails()):
-    		return redirect('add')
-    	->withInput()
-    	->withErrors($validator);
-    	else:
-    		if ($request->file('image')->isValid()):
-    			$destinationPath = 'uploads'; 
-    		$extension = $request->file('image')->getClientOriginalExtension(); 
-    		$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
-    		$files = $request->file('image')->move($destinationPath, $fileName); 
+	public function Upload(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'title' => 'required|max:255',
+			'description' => 'required|max:255',
+			'categories'  => 'required|max:255',
+			]);
+		if ($validator->fails()):
+			return redirect('add')
+		->withInput()
+		->withErrors($validator);
+		else:
+			if ($request->file('image')->isValid()):
+				$destinationPath = 'uploads'; 
+			$extension = $request->file('image')->getClientOriginalExtension(); 
+			$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
+			$files = $request->file('image')->move($destinationPath, $fileName); 
 
-    		$photos = new Photos;
-    		$photos->title = $request->title;
-    		$photos->description = $request->description;
-    		$photos->category_id = $request->categories;
-    		$photos->user_id = Auth::user()->id;
-    		$photos->images = $files;
-    		$photos->save();
+			$photos = new Photos;
+			$photos->title = $request->title;
+			$photos->description = $request->description;
+			$photos->category_id = $request->categories;
+			$photos->user_id = Auth::user()->id;
+			$photos->images = $files;
+			$photos->save();
 
-    		Session::flash('Upload successfully', 'Upload successfully'); 
-    		return Redirect::to('add');
+			Session::flash('Upload successfully', 'Upload successfully'); 
+			return Redirect::to('add');
 
-    		else:
-    			Session::flash('error', 'uploaded file is not valid');
-    		return Redirect::to('add');
-    		endif;
-    		endif;
-    	}
+			else:
+				Session::flash('error', 'uploaded file is not valid');
+			return Redirect::to('add');
+			endif;
+			endif;
+		}
 
-    	public function Index(Request $request){
+		public function Index(Request $request){
 
-    		$perpage = 8 ;
+			$perpage = 8 ;
 
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ='';
-    		endif;
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			else:
+				$counts ='';
+			endif;
 
-    		if(($search = \Request::get('s') )!== NULL):
-    			$photos = DB::table('photos as p')
-    		->join('categories as c', 'p.category_id', '=', 'c.id')
-    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
-    		->where('p.title','like','%'.$search.'%')->paginate($perpage);
-    		;
+			if(($search = \Request::get('s') )!== NULL):
+				$photos = DB::table('photos as p')
+			->join('categories as c', 'p.category_id', '=', 'c.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->where('p.title','like','%'.$search.'%')->paginate($perpage);
+			;
 
-    		return view('home', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			]);
-    		else:
+			return view('home', [
+				'counts' => $counts,
+				'photos' => $photos,
+				]);
+			else:
 
-    			$photos = DB::table('photos as p')
-    		->join('categories as c', 'p.category_id', '=', 'c.id')
-    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )->paginate($perpage);
+				$photos = DB::table('photos as p')
+			->join('categories as c', 'p.category_id', '=', 'c.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )->paginate($perpage);
 
-    		return view('home', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			]);
-    		endif;
-    	}
+			return view('home', [
+				'counts' => $counts,
+				'photos' => $photos,
+				]);
+			endif;
+		}
 
-    	public function Add(Request $request)
-    	{
-    		$category = DB::table('categories')
-    		->get();
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ='';
-    		endif;
-    		$file = '';
-    		return view('photos/add', [
-    			'counts' => $counts,
-    			'category' =>$category,
-    			'file' =>$file 
-    			]);
-    	}
+		public function Add(Request $request)
+		{
+			$category = DB::table('categories')
+			->get();
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			else:
+				$counts ='';
+			endif;
+			$file = '';
+			return view('photos/add', [
+				'counts' => $counts,
+				'category' =>$category,
+				'file' =>$file 
+				]);
+		}
 
-    	public function Gallery(Request $request)
-    	{
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		$perpage = 8;
-    		$photos = DB::table('photos as p')
-    		->join('categories as c', 'p.category_id', '=', 'c.id')
-    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
-    		->where('p.user_id', Auth::user()->id)->paginate($perpage);
-    		
+		public function Gallery(Request $request)
+		{
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			$perpage = 8;
+			$photos = DB::table('photos as p')
+			->join('categories as c', 'p.category_id', '=', 'c.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->where('p.user_id', Auth::user()->id)->paginate($perpage);
 
-    		return view('photos/gallery', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			]);
 
-    		endif;
-    	}
+			return view('photos/gallery', [
+				'counts' => $counts,
+				'photos' => $photos,
+				]);
 
-    	public function GalleryId(Request $request)
-    	{
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ="";
-    		endif;
-    		$perpage = 8;
-    		$photos = DB::table('photos as p')
-    		->join('categories as c', 'p.category_id', '=', 'c.id')
-    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
-    		->where('p.user_id', $request->id)->paginate($perpage);
+			endif;
+		}
 
-    		return view('photos/gallery', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			]);
-    	}
+		public function GalleryId(Request $request)
+		{
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			else:
+				$counts ="";
+			endif;
+			$perpage = 8;
+			$photos = DB::table('photos as p')
+			->join('categories as c', 'p.category_id', '=', 'c.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->where('p.user_id', $request->id)->paginate($perpage);
 
-    	public function Images(Request $request)
-    	{
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ='';
-    		endif;
+			return view('photos/gallery', [
+				'counts' => $counts,
+				'photos' => $photos,
+				]);
+		}
 
-    		$photos = DB::table('photos')
-    		->where('id', $request->id)
-    		->get();
+		public function Images(Request $request)
+		{
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			$login = Auth::user()->id;
+			else:
+				$counts ='';
+			$login = FALSE;
+			endif;
 
-    		$category = DB::table('categories')
-    		->get();
+			$photos = DB::table('photos')
+			->where('id', $request->id)
+			->get();
 
-    		$messages = DB::table('posts as p')
-    		->join('users as u', 'u.id', '=', 'p.user_id')
-    		->select('p.post', 'p.id', 'p.user_id', 'p.photo_id', 'u.id as user_id',  'u.name as username' )
-    		->where('p.photo_id', $request->id)->take(5)->get();
+			$category = DB::table('categories')
+			->get();
 
-    		return view('photos/images', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			'category' => $category,
-    			'messages' => $messages,
-    			]);
-    	}
+			$messages = DB::table('posts as p')
+			->join('users as u', 'u.id', '=', 'p.user_id')
+			->select('p.post', 'p.id', 'p.user_id', 'p.photo_id', 'u.id as user_id',  'u.name as username' )
+			->where('p.photo_id', $request->id)->take(5)->get();
 
-    	public function Categories(Request $request)
-    	{
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ='';
-    		endif;
+			return view('photos/images', [
+				'counts' => $counts,
+				'photos' => $photos,
+				'category' => $category,
+				'messages' => $messages,
+				'login' => $login,
+				]);
+		}
 
-    		$cat_id = DB::table('categories')
-    		->count();
+		public function Categories(Request $request)
+		{
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			else:
+				$counts ='';
+			endif;
 
-    		$rand = rand(1,$cat_id);
+			$cat_id = DB::table('categories')
+			->count();
 
-    		$cat = DB::table('categories')
-    		->get();
+			$rand = rand(1,$cat_id);
 
-    		$photos = DB::table('photos')
-    	->take(4)->get();
+			$cat = DB::table('categories')
+			->get();
 
-    		return view('photos/categories', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			'cat' => $cat,
-    			'cat_id' => $cat_id,
-    			]);
-    	}
+			$photos = DB::table('photos')
+			->take(4)->get();
 
-    	public function Category(Request $request)
-    	{
-    		if(Auth::user()):
-    			$counts = DB::table('photos')
-    		->where('user_id', Auth::user()->id)
-    		->count();
-    		else:
-    			$counts ='';
-    		endif;
+			return view('photos/categories', [
+				'counts' => $counts,
+				'photos' => $photos,
+				'cat' => $cat,
+				'cat_id' => $cat_id,
+				]);
+		}
 
-    		$perpage = 8 ; 
+		public function Category(Request $request)
+		{
+			if(Auth::user()):
+				$counts = DB::table('photos')
+			->where('user_id', Auth::user()->id)
+			->count();
+			else:
+				$counts ='';
+			endif;
 
-    		$photos = DB::table('photos as p')
-    		->join('categories as c', 'p.category_id', '=', 'c.id')
-    		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
-    		->where('p.category_id', $request->id)->paginate($perpage);
+			$perpage = 8 ; 
 
-    		return view('photos/category', [
-    			'counts' => $counts,
-    			'photos' => $photos,
-    			]);
-    	}
+			$photos = DB::table('photos as p')
+			->join('categories as c', 'p.category_id', '=', 'c.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->where('p.category_id', $request->id)->paginate($perpage);
 
-    	public function Messages(Request $request)
-    	{
-    		
-    		$post = new Post;
-    		$post->post = $request->post;
-    		$post->user_id = Auth::user()->id;
-    		$post->photo_id = $request->photo;
-    		$post->save();
-    		Session::flash('successfully', 'Upload successfully'); 
-    	   	return Redirect::to('photo/'.$request->photo);
-    	}
-    }
+			return view('photos/category', [
+				'counts' => $counts,
+				'photos' => $photos,
+				]);
+		}
+
+		public function Messages(Request $request)
+		{
+			if(Auth::user()):
+				$post = new Post;
+				$post->post = $request->post;
+				$post->user_id = Auth::user()->id;
+				$post->photo_id = $request->photo;
+				$post->save();
+
+				Session::flash('Successfully', 'Messages successfully added'); 
+				return Redirect::to('photo/'.$request->photo);
+			else:
+				Session::flash('Warning', 'You are not registered'); 
+				return Redirect::to('photo/'.$request->photo);
+			endif;
+		}
+	}

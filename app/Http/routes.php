@@ -12,7 +12,6 @@ Route::auth();
 
 Route::get('/', 'ImgController@Index');
 
-
 /**
  * Add New Task
  */

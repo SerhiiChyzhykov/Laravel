@@ -48,7 +48,7 @@
                     <li><a href="{{ url('/') }}">Home</a></li>
                     <li><a href="{{ url('/categories') }}">Categories</a></li>
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
+                <form action="/" class="navbar-form navbar-left" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search" name="s">
                     </div>
