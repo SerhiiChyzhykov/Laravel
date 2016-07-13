@@ -251,4 +251,57 @@ class ImgController extends Controller
 				return Redirect::to('photo/'.$request->photo);
 			endif;
 		}
+
+		public function Edit(Request $request)
+	{
+		if(Auth::user()):
+		$validator = Validator::make($request->all(), [
+			'title' => 'required|max:255',
+			'description' => 'required|max:255',
+			'categories'  => 'required|max:255',
+			]);
+		if ($validator->fails()):
+			return redirect('photo/'.$request->id)
+		->withInput()
+		->withErrors($validator);
+		else:
+			if ($request->file('image') != NULL):
+				$destinationPath = 'uploads'; 
+			$extension = $request->file('image')->getClientOriginalExtension(); 
+			$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
+			$files = $request->file('image')->move($destinationPath, $fileName); 
+
+			DB::table('photos')
+            ->where('id', $request->id)
+            ->update([
+            	'title' => $request->title,
+            	'description' => $request->description, 
+            	'category_id' => $request->categories,
+            	'user_id' => Auth::user()->id, 
+            	'images' => $files
+            	]
+            	);
+
+
+			Session::flash('Successfully', 'Updated successfully'); 
+			return Redirect::to('photo/'.$request->id);
+
+			else:
+			DB::table('photos')
+            ->where('id', $request->edit)
+            ->update([
+            	'title' => $request->title,
+            	'description' => $request->description, 
+            	'category_id' => $request->categories,
+            	'user_id' => Auth::user()->id, 
+            	'images' => $request->images,
+            	]
+            	);
+				Session::flash('Successfully', 'Updated successfully');
+			return Redirect::to('photo/'.$request->id);
+			endif;
+			endif;
+			endif;
+			
+		}
 	}

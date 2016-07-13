@@ -11,10 +11,13 @@
 			<img src='../{{$row->images}}' width="600" hight="600" />
 		</div>
 		@if ($login == $row->user_id)
-		<form action="" method="POST" role="form" name="delete">
-			<input type="hidden" name="delete" value="{{$row->id}}">
-			<button type="submit" class="btn btn-primary" style="float: right; margin-left: 5px;">Delete</button>
-		</form>
+		 <form action="{{ url('/photo/'.$row->id) }}" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+            <button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </form>
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" style="float: right; margin-left: 5px;">Eddit</button>
 		<div class="modal fade" id="edit" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
@@ -23,7 +26,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title">Eddit</h4>
 					</div>
-					<form action="" method="POST" role="form" enctype="multipart/form-data" name="form">
+					<form action="{{ url('/photo/'.$row->id.'/edit') }}" method="POST" role="form" enctype="multipart/form-data" name="form">
 						<div class="modal-body">
 							<div class="form-group">
 								<label for="title">Title</label>
@@ -44,8 +47,10 @@
 							<div class="form-group">
 								<center><img src='../{{$row->images}}' width="150" hight="150" /></center>
 								<br>
+								<input type="hidden" class="form-control" id="files" value="{{$row->images}}" name="images">
 								<input type="file" class="form-control" id="file" value="{{$row->images}}" name="image">
 								<input type="hidden" class="form-control" id="edit" value="{{$row->id}}" name="edit">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 							</div>
 						</div>
 						<div class="modal-footer">

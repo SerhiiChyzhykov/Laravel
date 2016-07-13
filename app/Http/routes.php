@@ -37,10 +37,16 @@ Route::get('categories', 'ImgController@Categories');
 /**
  * Delete Task
  */
-Route::delete('/task/{task}', function (Task $task) {
-	$task->delete();
-
+Route::delete('/photo/{id}', function (Photos $id) {
+	$id->delete();
+Session::flash('Successfully', 'Delete successfully');
 	return redirect('/');
 });
 
+
+
+Route::get('photo/{id}/edit', function() {
+  return View::make('images');
+});
+Route::post('photo/{id}/edit', 'ImgController@Edit');
 
