@@ -6,9 +6,7 @@ use App\Post;
 
 use Illuminate\Http\Request;
 
-
 Route::auth();
-
 
 Route::get('/', 'ImgController@Index');
 
@@ -43,10 +41,7 @@ Session::flash('Successfully', 'Delete successfully');
 	return redirect('/');
 });
 
-
-
 Route::get('photo/{id}/edit', function() {
   return View::make('images');
 });
 Route::post('photo/{id}/edit', 'ImgController@Edit');
-

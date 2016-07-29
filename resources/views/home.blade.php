@@ -9,7 +9,7 @@
      <div class="col-xs-9 col-sm-5 col-md-4 col-lg-3">
         <div class="thumbnail" >
             <div class="caption" style = "height: 140px;" >
-                <a href='/photo?id={{ $row->id}}'>
+                <a href='/photo/{{ $row->id}}'>
                     <img src='{{ $row->images}}' title='увеличить' style="height: 155px;">
                 </a>
             </div>

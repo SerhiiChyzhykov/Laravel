@@ -172,7 +172,7 @@ class ImgController extends Controller
 			$messages = DB::table('posts as p')
 			->join('users as u', 'u.id', '=', 'p.user_id')
 			->select('p.post', 'p.id', 'p.user_id', 'p.photo_id', 'u.id as user_id',  'u.name as username' )
-			->where('p.photo_id', $request->id)->take(5)->get();
+			->where('p.photo_id', $request->id)->orderBy('id', 'DESC')->take(5)->get();
 
 			return view('photos/images', [
 				'counts' => $counts,
