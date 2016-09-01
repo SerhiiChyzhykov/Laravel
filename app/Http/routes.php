@@ -32,6 +32,8 @@ Route::get('category/{id}', 'ImgController@Category');
 
 Route::get('categories', 'ImgController@Categories');
 
+Route::get('admin', 'AdminController@Index');
+
 /**
  * Delete Task
  */
