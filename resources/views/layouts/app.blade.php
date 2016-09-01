@@ -7,20 +7,32 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Laravel</title>
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
-    <link rel="stylesheet" type="text/css" href="{{asset('/css/bootstrap.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('/fonts/glyphicons-halflings-regular.ttf')}}">
-    <style>
-        body {
-            font-family: 'Lato';
-        }
-        .fa-btn {
-            margin-right: 6px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="/css/admin/styles.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin/core.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin/components.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin/colors.css" rel="stylesheet" type="text/css">
+    <link href="/css/admin/octicons.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script type="text/javascript" src="/js/admin/pace.min.js"></script>
+    <script type="text/javascript" src="/js/admin/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/admin/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/admin/blockui.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="/js/admin/d3.min.js"></script>
+    <script type="text/javascript" src="/js/admin/d3_tooltip.js"></script>
+    <script type="text/javascript" src="/js/admin/switchery.min.js"></script>
+    <script type="text/javascript" src="/js/admin/uniform.min.js"></script>
+    <script type="text/javascript" src="/js/admin/bootstrap_multiselect.js"></script>
+    <script type="text/javascript" src="/js/admin/moment.min.js"></script>
+    <script type="text/javascript" src="/js/admin/daterangepicker.js"></script>
+    <script type="text/javascript" src="/js/admin/app.js"></script>
+    <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </head>
-<body id="app-layout">
+<body class="login-container  pace-done">
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -56,14 +68,14 @@
                     <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                     <li><a href="{{ url('/gallery') }}" >Gallery <span class="badge">{{ $counts }}</span></a></li>
-                    <li class="dropdown">
+                    <li class="dropdown dropdown-user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                           Hello, {{ Auth::user()->name }} <span class="caret"></span>
-                       </a>
-                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('/add') }}">New Photo</a></li>
-                        <li><a href="/admin">Admin</a></li>
-                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                         Hello, {{ Auth::user()->name }} <span class="caret"></span>
+                     </a>
+                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ url('/add') }}"><i class="icon-image2"></i>New Photo</a></li>
+                        <li><a href="/admin"><i class="icon-user-lock"></i>Admin</a></li>
+                        <li><a href="{{ url('/logout') }}"><i class="icon-switch2"></i>Logout</a></li>
                     </ul>
                 </li>
                 @endif
@@ -72,12 +84,10 @@
     </div>
 </nav>
 @include('common.errors')
-<div class="container">
+
     @yield('content')
-</div>
+
 <!-- JavaScripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
-<script src="{{asset('/js/bootstrap.js')}}"  crossorigin="anonymous"></script>
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {

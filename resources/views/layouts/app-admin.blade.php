@@ -33,7 +33,7 @@
     <!-- /theme JS files -->
 </head>
 <body id="app-layout">
-   <div class="navbar navbar-inverse">
+ <div class="navbar navbar-inverse">
     <div class="navbar-header">
         <a class="navbar-brand" href="index.html"><img src="/assets/images/logo_light.png" alt=""></a>
         <ul class="nav navbar-nav visible-xs-block">
@@ -44,73 +44,7 @@
     <div class="navbar-collapse collapse" id="navbar-mobile">
         <ul class="nav navbar-nav">
             <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-git-compare"></i>
-                    <span class="visible-xs-inline-block position-right">Git updates</span>
-                    <span class="badge bg-warning-400">9</span>
-                </a>
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-heading">
-                        Git updates
-                        <ul class="icons-list">
-                            <li><a href="#"><i class="icon-sync"></i></a></li>
-                        </ul>
-                    </div>
-                    <ul class="media-list dropdown-content-body width-350">
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
-                            </div>
-                            <div class="media-body">
-                                Drop the IE <a href="#">specific hacks</a> for temporal inputs
-                                <div class="media-annotation">4 minutes ago</div>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#" class="btn border-warning text-warning btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-commit"></i></a>
-                            </div>
-                            <div class="media-body">
-                                Add full font overrides for popovers and tooltips
-                                <div class="media-annotation">36 minutes ago</div>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#" class="btn border-info text-info btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-branch"></i></a>
-                            </div>
-                            <div class="media-body">
-                                <a href="#">Chris Arney</a> created a new <span class="text-semibold">Design</span> branch
-                                <div class="media-annotation">2 hours ago</div>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-merge"></i></a>
-                            </div>
-                            <div class="media-body">
-                                <a href="#">Eugene Kopyov</a> merged <span class="text-semibold">Master</span> and <span class="text-semibold">Dev</span> branches
-                                <div class="media-annotation">Dec 18, 18:36</div>
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-left">
-                                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
-                            </div>
-                            <div class="media-body">
-                                Have Carousel ignore keyboard events
-                                <div class="media-annotation">Dec 12, 05:46</div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="dropdown-content-footer">
-                        <a href="#" data-popup="tooltip" title="" data-original-title="All activity"><i class="icon-menu display-block"></i></a>
-                    </div>
-                </div>
-            </li>
         </ul>
-        <p class="navbar-text"><span class="label bg-success">Online</span></p>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
@@ -263,48 +197,50 @@
                         <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
                     </div>
                 </div>
-                <a class="heading-elements-toggle"><i class="icon-more"></i></a></div>
-                <div class="breadcrumb-line">
-                    <ul class="breadcrumb">
-                        <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-                        <li class="active">Dashboard</li>
-                    </ul>
-                    <ul class="breadcrumb-elements">
-                        <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-gear position-left"></i>
-                                Settings
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
-                                <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
-                                <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a></div>
-                </div>
-                <div class="content">
-                    @yield('content')
-                    <div class="footer text-muted">
-                        © 2015. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
-                    </div>
-                </div>
+                <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+            </div>
+            <div class="breadcrumb-line">
+                <ul class="breadcrumb">
+                    <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                    <li class="active">Dashboard</li>
+                </ul>
+                <ul class="breadcrumb-elements">
+                    <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-gear position-left"></i>
+                            Settings
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                            <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                            <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
             </div>
         </div>
-        <!-- JavaScripts -->
-        <script type="text/javascript">
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-        </script>
-        {!! csrf_field() !!}
-        {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-    </body>
-    </html>
+        <div class="content">
+            @yield('content')
+            <div class="footer text-muted">
+                © {{ date("Y") }}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JavaScripts -->
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+{!! csrf_field() !!}
+{{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+</body>
+</html>
