@@ -12,18 +12,17 @@
 
 @foreach (Session::all() as $element => $row)
 @if ($element === 'Successfully')
-<div class="alert bg-success alert-styled-left">
+<div class="alert alert-success alert-styled-left alert-arrow-left alert-component">
   <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-  <span class="text-semibold">Well done!</span>{{$row}}
+  <h6 class="alert-heading text-semibold">Well done!</h6>
+  {{$row}}
 </div>
-
 @elseif($element === 'Warning')
-
-<div class="alert bg-danger alert-styled-left">
+<div class="alert alert-danger alert-styled-left alert-arrow-left alert-component">
   <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
-  <span class="text-semibold">Oh snap!</span>  {{$row}}
+  <h6 class="alert-heading text-semibold">Oh snap!</h6>
+  {{$row}}
 </div>
-
 @endif
 
 @endforeach

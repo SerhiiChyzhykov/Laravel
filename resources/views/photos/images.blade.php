@@ -1,12 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-header page-header-default">
+
+<div class="page-header page-header-inverse has-cover">
 	<div class="page-header-content">
 		<div class="page-title">
 			<h4><i class="icon-arrow-left52 position-left"></i> Photo</h4>
 			<a class="heading-elements-toggle"><i class="icon-more"></i></a>
 		</div>
+		<!-- COOMING SOON -->
+		<div class="heading-elements">
+			<form class="heading-form" action="#">
+				<div class="form-group">
+					<div class="has-feedback">
+						<input type="search" class="form-control" placeholder="Search">
+						<div class="form-control-feedback">
+							<i class="icon-search4 text-size-small text-muted"></i>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- COOMING SOON -->
 	</div>
 	<div class="breadcrumb-line">
 		<a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
@@ -44,24 +59,39 @@
 			<?php $photo =  $row->id; ?>
 			<div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
 				<div class="thumbnail">
-					<img src='../{{$row->images}}' style="max-width: 745px;"/>
+					<div class ="thumb">
+						<img src='../{{$row->images}}' />
+						@if ($login == $row->user_id)
+						<div class="caption-overflow">
+							<span>
+							<ul style="list-style-type: none;">
+									<li>
+										<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_theme_success" >Eddit</button>
+												</li>
+									<br>
+									<li>
+										<form action="{{ url('/photo/'.$row->id) }}" method="POST" >
+											{{ csrf_field() }}
+											{{ method_field('DELETE') }}
+											<button type="submit" class="btn btn-info btn-sm" >
+												<i class="fa fa-trash"></i> Remove
+											</button>
+										</form>
+									</li>
+								</ul>
+							</span>
+						</div>
+						@endif
+					</div>
 				</div>
 				<div class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">{{$row->title}}</h3>
 						@if ($login == $row->user_id)
-						<form action="{{ url('/photo/'.$row->id) }}" method="POST" >
-							{{ csrf_field() }}
-							{{ method_field('DELETE') }}
-							<button type="submit" class="btn btn-danger" style="float: right; margin-left: 5px;">
-								<i class="fa fa-trash"></i> Delete
-							</button>
-						</form>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit" style="float: right; margin-left: 5px;">Eddit</button>
-						<div class="modal fade" id="edit" tabindex="-1" role="dialog">
+						<div id="modal_theme_success" class="modal fade in" >
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-success">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										<h4 class="modal-title">Eddit</h4>
 									</div>
