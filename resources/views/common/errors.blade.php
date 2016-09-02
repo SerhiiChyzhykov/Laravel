@@ -1,31 +1,29 @@
 @if (count($errors) > 0)
 <!-- Form Error List -->
-<div class="alert alert-danger">
-   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-   <strong>Whoops! Something went wrong!</strong>
-
-   <br><br>
-
-   <ul>
-    @foreach ($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-</ul>
+<div class="alert bg-danger alert-styled-left">
+  <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+  <span class="text-semibold">Oh snap!</span> 
+  @foreach ($errors->all() as $error)
+  <li>{{ $error }}</li>
+  @endforeach
+  <a href="#" class="alert-link">try submitting again</a>.
 </div>
 @endif
-<div class="container">
+
 @foreach (Session::all() as $element => $row)
 @if ($element === 'Successfully')
-<div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Well done!</strong> {{$row}}
+<div class="alert bg-success alert-styled-left">
+  <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+  <span class="text-semibold">Well done!</span>{{$row}}
 </div>
+
 @elseif($element === 'Warning')
-<div class="alert alert-warning alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Warning!</strong> {{$row}}
+
+<div class="alert bg-danger alert-styled-left">
+  <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+  <span class="text-semibold">Oh snap!</span>  {{$row}}
 </div>
+
 @endif
 
 @endforeach
-    </div>

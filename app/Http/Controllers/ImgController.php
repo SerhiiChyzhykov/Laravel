@@ -119,9 +119,10 @@ class ImgController extends Controller
 			$perpage = 8;
 			$photos = DB::table('photos as p')
 			->join('categories as c', 'p.category_id', '=', 'c.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->join('users as u', 'p.user_id', '=', 'u.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title',
+			'u.name as name' )
 			->where('p.user_id', Auth::user()->id)->paginate($perpage);
-
 
 			return view('photos/gallery', [
 				'counts' => $counts,
@@ -143,7 +144,8 @@ class ImgController extends Controller
 			$perpage = 8;
 			$photos = DB::table('photos as p')
 			->join('categories as c', 'p.category_id', '=', 'c.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->join('users as u', 'p.user_id', '=', 'u.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' , 'u.name as name' )
 			->where('p.user_id', $request->id)->paginate($perpage);
 
 			return view('photos/gallery', [

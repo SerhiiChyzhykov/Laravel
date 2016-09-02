@@ -33,7 +33,7 @@
     <script type="text/javascript" src="/js/admin/dashboard.js"></script>
 </head>
 <body class="login-container  pace-done">
-    <nav class="navbar navbar-inverse navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <!-- Collapsed Hamburger -->
@@ -83,10 +83,9 @@
         </div>
     </div>
 </nav>
-@include('common.errors')
-
+<div class="page-container">
     @yield('content')
-
+    </div>
 <!-- JavaScripts -->
 <script type="text/javascript">
     $.ajaxSetup({
