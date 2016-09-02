@@ -67,8 +67,9 @@ class ImgController extends Controller
 
 			if(($search = \Request::get('s') )!== NULL):
 				$photos = DB::table('photos as p')
-			->join('categories as c', 'p.category_id', '=', 'c.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
+			->join('categories as c', 'p.category_id', '=', 'c.id' )
+			->join('users as u', 'p.user_id', '=', 'u.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'u.id as id', 'p.description',  'c.title as category_title' ,'u.name as name' )
 			->where('p.title','like','%'.$search.'%')->paginate($perpage);
 			;
 
@@ -80,7 +81,8 @@ class ImgController extends Controller
 
 				$photos = DB::table('photos as p')
 			->join('categories as c', 'p.category_id', '=', 'c.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )->paginate($perpage);
+			->join('users as u', 'p.user_id', '=', 'u.id')
+			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title','u.name as name'  )->paginate($perpage);
 
 			return view('home', [
 				'counts' => $counts,
@@ -239,69 +241,69 @@ class ImgController extends Controller
 		{
 			if(Auth::user()):
 				$post = new Post;
-				$post->post = $request->post;
-				$post->user_id = Auth::user()->id;
-				$post->photo_id = $request->photo;
-				$post->save();
+			$post->post = $request->post;
+			$post->user_id = Auth::user()->id;
+			$post->photo_id = $request->photo;
+			$post->save();
 
-				Session::flash('Successfully', 'Messages successfully added'); 
-				return Redirect::to('photo/'.$request->photo);
+			Session::flash('Successfully', 'Messages successfully added'); 
+			return Redirect::to('photo/'.$request->photo);
 			else:
 				Session::flash('Warning', 'You are not registered'); 
-				return Redirect::to('photo/'.$request->photo);
+			return Redirect::to('photo/'.$request->photo);
 			endif;
 		}
 
 		public function Edit(Request $request)
-	{
-		if(Auth::user()):
-		$validator = Validator::make($request->all(), [
-			'title' => 'required|max:255',
-			'description' => 'required|max:255',
-			'categories'  => 'required|max:255',
-			]);
-		if ($validator->fails()):
-			return redirect('photo/'.$request->id)
-		->withInput()
-		->withErrors($validator);
-		else:
-			if ($request->file('image') != NULL):
-				$destinationPath = 'uploads'; 
-			$extension = $request->file('image')->getClientOriginalExtension(); 
-			$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
-			$files = $request->file('image')->move($destinationPath, $fileName); 
-
-			DB::table('photos')
-            ->where('id', $request->id)
-            ->update([
-            	'title' => $request->title,
-            	'description' => $request->description, 
-            	'category_id' => $request->categories,
-            	'user_id' => Auth::user()->id, 
-            	'images' => $files
-            	]
-            	);
-
-
-			Session::flash('Successfully', 'Updated successfully'); 
-			return Redirect::to('photo/'.$request->id);
-
+		{
+			if(Auth::user()):
+				$validator = Validator::make($request->all(), [
+					'title' => 'required|max:255',
+					'description' => 'required|max:255',
+					'categories'  => 'required|max:255',
+					]);
+			if ($validator->fails()):
+				return redirect('photo/'.$request->id)
+			->withInput()
+			->withErrors($validator);
 			else:
-			DB::table('photos')
-            ->where('id', $request->edit)
-            ->update([
-            	'title' => $request->title,
-            	'description' => $request->description, 
-            	'category_id' => $request->categories,
-            	'user_id' => Auth::user()->id, 
-            	'images' => $request->images,
-            	]
-            	);
+				if ($request->file('image') != NULL):
+					$destinationPath = 'uploads'; 
+				$extension = $request->file('image')->getClientOriginalExtension(); 
+				$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
+				$files = $request->file('image')->move($destinationPath, $fileName); 
+
+				DB::table('photos')
+				->where('id', $request->id)
+				->update([
+					'title' => $request->title,
+					'description' => $request->description, 
+					'category_id' => $request->categories,
+					'user_id' => Auth::user()->id, 
+					'images' => $files
+					]
+					);
+
+
+				Session::flash('Successfully', 'Updated successfully'); 
+				return Redirect::to('photo/'.$request->id);
+
+				else:
+					DB::table('photos')
+				->where('id', $request->edit)
+				->update([
+					'title' => $request->title,
+					'description' => $request->description, 
+					'category_id' => $request->categories,
+					'user_id' => Auth::user()->id, 
+					'images' => $request->images,
+					]
+					);
 				Session::flash('Successfully', 'Updated successfully');
-			return Redirect::to('photo/'.$request->id);
-			endif;
-			endif;
-			endif;
-			
+				return Redirect::to('photo/'.$request->id);
+				endif;
+				endif;
+				endif;
+
+			}
 		}
-	}

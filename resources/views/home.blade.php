@@ -1,52 +1,73 @@
 @extends('layouts.app')
-
 @section('content')
-
 @if (count($photos) > 0)
-<div class="content clearfix">
-    <div class="container">
-     @foreach ($photos as $row)
-     <div class="col-xs-9 col-sm-5 col-md-4 col-lg-3">
-        <div class="thumbnail" >
-            <div class="caption" style = "height: 140px;" >
-                <a href='/photo/{{ $row->id}}'>
-                    <img src='{{ $row->images}}' title='увеличить' style="height: 155px;">
+<div class="page-header page-header-default">
+    <div class="page-header-content">
+        <div class="page-title">
+            <h4><i class="icon-arrow-left52 position-left"></i> Home</h4>
+            <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+        </div>
+    </div>
+    <div class="breadcrumb-line"><a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
+        <ul class="breadcrumb">
+            <li class="active"><i class="icon-home2 position-left"></i> Home</a></li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-gear position-left"></i>
+                    Settings
+                    <span class="caret"></span>
                 </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content clearfix">
+    <div class="row">
+       @foreach ($photos as $row)
+       <div class="col-lg-3 col-sm-6">
+        <div class="thumbnail">
+            <div class="thumb">
+                <img src="{{ $row->images}}" alt="{{ $row->id}}" style="max-width: 450px;
+                max-height: 250px;">
+                <div class="caption-overflow">
+                    <span>
+                        <a href="{{ $row->images}}" data-popup="lightbox" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-plus3"></i></a>
+                        <a href="/photo/{{ $row->id}}" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="icon-link2"></i></a>
+                    </span>
+                </div>
             </div>
+
             <div class="caption">
-                @if (strlen($row->photos_title) >= 17)
-                <h3>{{ substr($row->photos_title, 0, 17)}}...</h3>
-                @else
-                <h3>{{ substr($row->photos_title, 0, 17)}}</h3>
-                @endif
-                <?php 
-                $rand = array('default','success','info','warning','danger'); 
-                $rand = $rand[rand(0,4)];   
-                ?>
-                <span class="label label-{{$rand}}">
-                    {{substr($row->category_title, 0 , 17)}}
-                </span>
-                <br/><br/>
-                @if(strlen($row->description) >= 30)
-                <p>{{ substr($row->description, 0, 30)}}...</p>
-                @else
-                <p>{{ substr($row->description, 0, 30)}}</p>
-                @endif
-                <p>
-                    <a href='/photo/{{ $row->id}}' class="btn btn-primary" >Full width</a>
-                    <a href="/gallery/{{ $row->user_id}}" class="btn btn-default" role="button">User's album</a>
-                </p>
+                <h6 class="no-margin-top text-semibold">
+                    <a href="#" class="text-default">
+                        @if (strlen($row->photos_title) >= 17)
+                        {{ substr($row->photos_title, 0, 17)}}...
+                        @else
+                        {{ substr($row->photos_title, 0, 17)}}
+                        @endif
+                    </a> 
+                    <a href="{{ $row->images}}" class="text-muted" download="{{md5(microtime() . rand(0, 9999)).$row->photos_title}}"><i class="icon-download pull-right"></i></a>
+                </h6>
+                {{$row->description}}
             </div>
         </div>
     </div>
     @endforeach
 </div>
-</div>
-
 <center>
     {!! $photos->render() !!}
 </center>
+</div>
 
 @endif
-
 @endsection
