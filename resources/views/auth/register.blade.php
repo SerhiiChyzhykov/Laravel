@@ -60,12 +60,14 @@
                      </span>
                      @endif
                  </div>
-                 <button type="submit" class="btn bg-teal btn-block btn-lg">Register <i class="icon-circle-right2 position-right"></i></button>
+                 <button type="submit" class="btn bg-teal btn-block btn-lg">Register 
+                     <i class="icon-circle-right2 position-right"></i>
+                 </button>
              </div>
          </form>
      </div>
  </div>
 </div>
 </div>
-</div>
+
 @endsection
