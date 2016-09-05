@@ -36,23 +36,29 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Gallery
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    <li><a href="{{ url('/categories') }}">Categories</a></li>
+                    <li class="dropdown dropdown-user open">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+                           Categories<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li><a href="http://localhost:8000/add"><i class="icon-image2"></i>New Photo</a></li>
+  
+                        </ul>
+                    </li>
                 </ul>
                 <form action="/" class="navbar-form navbar-left" role="search">
                     <div class="form-group">
@@ -60,9 +66,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-                <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
                     @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Register</a></li>
@@ -85,7 +89,7 @@
 </nav>
 <div class="page-container">
     @yield('content')
-    </div>
+</div>
 <!-- JavaScripts -->
 <script type="text/javascript">
     $.ajaxSetup({

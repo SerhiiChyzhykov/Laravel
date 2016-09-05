@@ -13,6 +13,7 @@ use App\Photos;
 use App\Post;
 use Auth;
 use DB;
+use File;
 
 class ImgController extends Controller
 {
@@ -29,12 +30,12 @@ class ImgController extends Controller
 		->withInput()
 		->withErrors($validator);
 		else:
+
 			if ($request->file('image')->isValid()):
 				$destinationPath = 'uploads'; 
 			$extension = $request->file('image')->getClientOriginalExtension(); 
 			$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
 			$files = $request->file('image')->move($destinationPath, $fileName); 
-
 			$photos = new Photos;
 			$photos->title = $request->title;
 			$photos->description = $request->description;
@@ -44,7 +45,8 @@ class ImgController extends Controller
 			$photos->save();
 
 			Session::flash('Upload successfully', 'Upload successfully'); 
-			return Redirect::to('add');
+
+			return Redirect::to('/');
 
 			else:
 				Session::flash('error', 'uploaded file is not valid');
@@ -92,7 +94,9 @@ class ImgController extends Controller
 		}
 
 		public function Add(Request $request)
-		{
+
+		{			
+
 			$category = DB::table('categories')
 			->get();
 			if(Auth::user()):
@@ -121,7 +125,7 @@ class ImgController extends Controller
 			->join('categories as c', 'p.category_id', '=', 'c.id')
 			->join('users as u', 'p.user_id', '=', 'u.id')
 			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title',
-			'u.name as name' )
+				'u.name as name' )
 			->where('p.user_id', Auth::user()->id)->paginate($perpage);
 
 			return view('photos/gallery', [
