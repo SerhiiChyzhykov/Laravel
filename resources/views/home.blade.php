@@ -1,26 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="page-header page-header-inverse has-cover">
-    <div class="page-header-content">
-        <div class="page-title">
-            <h4><i class="icon-arrow-left52 position-left"></i> Home</h4>
-            <a class="heading-elements-toggle"><i class="icon-more"></i></a>
-        </div>
-        <!-- COOMING SOON -->
-        <div class="heading-elements">
-            <form class="heading-form" action="#">
-                <div class="form-group">
-                    <div class="has-feedback">
-                        <input type="search" class="form-control" placeholder="Search">
-                        <div class="form-control-feedback">
-                            <i class="icon-search4 text-size-small text-muted"></i>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- COOMING SOON -->
-    </div>
+
     <div class="breadcrumb-line">
         <a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
         <ul class="breadcrumb">

@@ -64,10 +64,10 @@
 						@if ($login == $row->user_id)
 						<div class="caption-overflow">
 							<span>
-							<ul style="list-style-type: none;">
+								<ul style="list-style-type: none;">
 									<li>
 										<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_theme_success" >Eddit</button>
-												</li>
+									</li>
 									<br>
 									<li>
 										<form action="{{ url('/photo/'.$row->id) }}" method="POST" >
@@ -98,26 +98,30 @@
 									<form action="{{ url('/photo/'.$row->id.'/edit') }}" method="POST" role="form" enctype="multipart/form-data" name="form">
 										<div class="modal-body">
 											<div class="form-group">
-												<label for="title">Title</label>
 												<input type="text" class="form-control" id="title" name="title" value="{{$row->title}}" required="required">
+												<span class="label label-block label-primary">Title</span>
 											</div>
 											<div class="form-group">
-												<label for="description">Description</label>
 												<input type="text" class="form-control" id="description" value="{{$row->description}}" name="description" required="required">
+												<span class="label label-block label-primary">Description</span>
 											</div>
 											<div class="form-group">
-												<label for="">Category</label>
-												<select  name="categories" id="input" class="form-control" required="required">
+												<select  name="categories" id="input" class="form-control bg-success" required="required">
 													@foreach ($category as $item)
 													<option @if($item->id == $row->category_id) selected @endif value="{{ $item->id }}">{{$item->title}}</option>
 													@endforeach 
 												</select>
+												<span class="label label-block label-primary">Category</span>
 											</div>
 											<div class="form-group">
 												<center><img src='../{{$row->images}}' width="150" hight="150" /></center>
 												<br>
 												<input type="hidden" class="form-control" id="files" value="{{$row->images}}" name="images">
-												<input type="file" class="form-control" id="file" value="{{$row->images}}" name="image">
+												<div class="uploader">
+													<input type="file" class="file-styled-primary" id="file" value="{{$row->images}}" name="image">
+													<span class="filename" style="-webkit-user-select: none;">No file selected</span>
+													<span class="action btn bg-blue" style="-webkit-user-select: none;">Choose File</span>
+												</div>
 												<input type="hidden" class="form-control" id="edit" value="{{$row->id}}" name="edit">
 												<input type="hidden" name="_token" value="{{ csrf_token() }}">
 											</div>

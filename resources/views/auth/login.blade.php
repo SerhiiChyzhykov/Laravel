@@ -1,12 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<style type="text/css" media="screen">
-    .form-horizontal .form-group {
-        margin-left: 0px;
-        margin-right: 0px;
-    }
-</style>
+<div class="page-header page-header-inverse has-cover">
+    <div class="page-header-content">
+        <div class="page-title">
+            <h4><i class="icon-arrow-left52 position-left"></i> Home</h4>
+            <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+        </div>
+        <!-- COOMING SOON -->
+        <div class="heading-elements">
+            <form class="heading-form" action="#">
+                <div class="form-group">
+                    <div class="has-feedback">
+                        <input type="search" class="form-control" placeholder="Search">
+                        <div class="form-control-feedback">
+                            <i class="icon-search4 text-size-small text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- COOMING SOON -->
+    </div>
+    <div class="breadcrumb-line">
+        <a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
+        <ul class="breadcrumb">
+            <li class="active"><i class="icon-home2 position-left"></i> Home</li>
+        </ul>
+        <ul class="breadcrumb-elements">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-gear position-left"></i>
+                    Settings
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="disabled"><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                    <li class="disabled"><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                    <li class="disabled"><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                    <li class="disabled"></li>
+                    <li class="disabled"><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
 <div class="page-container">
     <div class="page-content">
         <div class="content-wrapper">
