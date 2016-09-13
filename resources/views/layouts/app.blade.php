@@ -49,43 +49,53 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}">Home</a></li>
-                    <li class="dropdown dropdown-user open">
+                    <?php $path = Route::getCurrentRoute()->getPath(); ?>
+                    @if(!starts_with($path, 'login') and !starts_with($path, 'register'))
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
                            Categories<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-
-                            <li><a href="http://localhost:8000/add"><i class="icon-image2"></i>New Photo</a></li>
-  
-                        </ul>
-                    </li>
+                       </a>
+                       <ul class="dropdown-menu" role="menu">
+                           @foreach($categories as $row )
+                           <li><a href="{{ url('/category') }}/{{$row->id}}"><i class="icon-image2"></i>{{ $row->title}}</a></li>
+                           @endforeach
+                       </ul>
+                   </li>
+                   @else
+                   <li class="dropdown disabled">
+                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">
+                           Categories
+                           <span class="caret"></span>
+                       </a>
+                   </li>
+                   @endif
+               </ul>
+               <form action="/" class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" name="s">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                @if (Auth::guest())
+                <li><a href="{{ url('/login') }}">Login</a></li>
+                <li><a href="{{ url('/register') }}">Register</a></li>
+                @else
+                <li><a href="{{ url('/gallery') }}" >Gallery <span class="badge badge-success">{{ $counts }}</span></a></li>
+                <li class="dropdown dropdown-user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                     Hello, {{ Auth::user()->name }} <span class="caret"></span>
+                 </a>
+                 <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ url('/add') }}"><i class="icon-image2"></i>New Photo</a></li>
+                    <li><a href="/admin"><i class="icon-user-lock"></i>Admin</a></li>
+                    <li><a href="{{ url('/logout') }}"><i class="icon-switch2"></i>Logout</a></li>
                 </ul>
-                <form action="/" class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" name="s">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
-                    <li><a href="{{ url('/gallery') }}" >Gallery <span class="badge badge-success">{{ $counts }}</span></a></li>
-                    <li class="dropdown dropdown-user">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                         Hello, {{ Auth::user()->name }} <span class="caret"></span>
-                     </a>
-                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('/add') }}"><i class="icon-image2"></i>New Photo</a></li>
-                        <li><a href="/admin"><i class="icon-user-lock"></i>Admin</a></li>
-                        <li><a href="{{ url('/logout') }}"><i class="icon-switch2"></i>Logout</a></li>
-                    </ul>
-                </li>
-                @endif
-            </ul>
-        </div>
+            </li>
+            @endif
+        </ul>
     </div>
+</div>
 </nav>
 <div class="page-container">
     @yield('content')

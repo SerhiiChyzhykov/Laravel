@@ -18,6 +18,63 @@ use File;
 class ImgController extends Controller
 {
 
+	public function MenuCategories()
+	{
+		$categories = DB::table('categories as c')
+		->select('c.title as title' , 'c.id as id' )
+		->get();
+
+		return $categories;
+	}
+
+	public function Index(Request $request){
+
+		$perpage = 8 ;
+
+		if(Auth::user()):
+			$counts = DB::table('photos')
+		->where('user_id', Auth::user()->id)
+		->count();
+		else:
+			$counts ='';
+		endif;
+
+		$name = 'MenuCategories';
+		$categories = $this->$name(); 
+
+		if(($category = \Request::get('category') )!== NULL):
+
+			$photos = DB::table('photos as p')
+		->join('categories as c', 'p.category_id', '=', 'c.id' )
+		->join('users as u', 'p.user_id', '=', 'u.id')
+		->select('p.title as photos_title', 'p.id', 'p.images', 'u.id as id', 'p.description',  'c.title as category_title' ,'u.name as name' )
+		->where('p.category_id', $category)->paginate($perpage);
+
+		elseif(($search = \Request::get('s') )!== NULL):
+
+			$photos = DB::table('photos as p')
+		->join('categories as c', 'p.category_id', '=', 'c.id' )
+		->join('users as u', 'p.user_id', '=', 'u.id')
+		->select('p.title as photos_title', 'p.id', 'p.images', 'u.id as id', 'p.description',  'c.title as category_title' ,'u.name as name' )
+		->where('p.title','like','%'.$search.'%')->paginate($perpage);
+		
+		else:
+
+			$photos = DB::table('photos as p')
+		->join('categories as c', 'p.category_id', '=', 'c.id')
+		->join('users as u', 'p.user_id', '=', 'u.id')
+		->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title','u.name as name'  )->paginate($perpage);
+
+		endif;
+
+		return view('home', [
+			'categories' => $categories,
+			'counts' => $counts,
+			'photos' => $photos,
+			]);
+		
+	}
+
 	public function Upload(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
@@ -55,44 +112,6 @@ class ImgController extends Controller
 			endif;
 		}
 
-		public function Index(Request $request){
-
-			$perpage = 8 ;
-
-			if(Auth::user()):
-				$counts = DB::table('photos')
-			->where('user_id', Auth::user()->id)
-			->count();
-			else:
-				$counts ='';
-			endif;
-
-			if(($search = \Request::get('s') )!== NULL):
-				$photos = DB::table('photos as p')
-			->join('categories as c', 'p.category_id', '=', 'c.id' )
-			->join('users as u', 'p.user_id', '=', 'u.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'u.id as id', 'p.description',  'c.title as category_title' ,'u.name as name' )
-			->where('p.title','like','%'.$search.'%')->paginate($perpage);
-			;
-
-			return view('home', [
-				'counts' => $counts,
-				'photos' => $photos,
-				]);
-			else:
-
-				$photos = DB::table('photos as p')
-			->join('categories as c', 'p.category_id', '=', 'c.id')
-			->join('users as u', 'p.user_id', '=', 'u.id')
-			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title','u.name as name'  )->paginate($perpage);
-
-			return view('home', [
-				'counts' => $counts,
-				'photos' => $photos,
-				]);
-			endif;
-		}
-
 		public function Add(Request $request)
 
 		{			
@@ -109,7 +128,7 @@ class ImgController extends Controller
 			$file = '';
 			return view('photos/add', [
 				'counts' => $counts,
-				'category' =>$category,
+				'categories' =>$category,
 				'file' =>$file 
 				]);
 		}
@@ -128,9 +147,13 @@ class ImgController extends Controller
 				'u.name as name' )
 			->where('p.user_id', Auth::user()->id)->paginate($perpage);
 
+			$category = DB::table('categories')
+			->get();
+
 			return view('photos/gallery', [
-				'counts' => $counts,
-				'photos' => $photos,
+				'categories' 	=> $category,
+				'counts' 	=> $counts,
+				'photos' 	=> $photos,
 				]);
 
 			endif;
@@ -191,35 +214,6 @@ class ImgController extends Controller
 				]);
 		}
 
-		public function Categories(Request $request)
-		{
-			if(Auth::user()):
-				$counts = DB::table('photos')
-			->where('user_id', Auth::user()->id)
-			->count();
-			else:
-				$counts ='';
-			endif;
-
-			$cat_id = DB::table('categories')
-			->count();
-
-			$rand = rand(1,$cat_id);
-
-			$cat = DB::table('categories')
-			->get();
-
-			$photos = DB::table('photos')
-			->take(4)->get();
-
-			return view('photos/categories', [
-				'counts' => $counts,
-				'photos' => $photos,
-				'cat' => $cat,
-				'cat_id' => $cat_id,
-				]);
-		}
-
 		public function Category(Request $request)
 		{
 			if(Auth::user()):
@@ -230,6 +224,9 @@ class ImgController extends Controller
 				$counts ='';
 			endif;
 
+			$name = 'MenuCategories';
+			$categories = $this->$name(); 
+
 			$perpage = 8 ; 
 
 			$photos = DB::table('photos as p')
@@ -237,7 +234,8 @@ class ImgController extends Controller
 			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
 			->where('p.category_id', $request->id)->paginate($perpage);
 
-			return view('photos/category', [
+			return view('home', [
+				'categories' => $categories,
 				'counts' => $counts,
 				'photos' => $photos,
 				]);

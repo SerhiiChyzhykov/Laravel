@@ -73,7 +73,7 @@
                         <div class="form-group">
                             <select name="categories" class="form-control bg-primary">
                                 <?php $i = 1;?>
-                                @foreach($category as $row ) 
+                                @foreach($categories as $row ) 
                                     @if($i == 1)
                                         <option value="{{ $row->id }}" selected="selected">{{$row->title}}</option>
                                     @else
