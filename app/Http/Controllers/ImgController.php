@@ -82,13 +82,17 @@ class ImgController extends Controller
 			'description' => 'required|max:255',
 			'categories'  => 'required|max:255',
 			]);
+
 		if ($validator->fails()):
+
 			return redirect('add')
 		->withInput()
 		->withErrors($validator);
+
 		else:
 
 			if ($request->file('image')->isValid()):
+
 				$destinationPath = 'uploads'; 
 			$extension = $request->file('image')->getClientOriginalExtension(); 
 			$fileName = md5(microtime() . rand(0, 9999)).'.'.$extension; 
@@ -118,6 +122,7 @@ class ImgController extends Controller
 
 			$category = DB::table('categories')
 			->get();
+
 			if(Auth::user()):
 				$counts = DB::table('photos')
 			->where('user_id', Auth::user()->id)
@@ -125,7 +130,9 @@ class ImgController extends Controller
 			else:
 				$counts ='';
 			endif;
+
 			$file = '';
+
 			return view('photos/add', [
 				'counts' => $counts,
 				'categories' =>$category,
@@ -168,6 +175,7 @@ class ImgController extends Controller
 			else:
 				$counts ="";
 			endif;
+
 			$perpage = 8;
 			$photos = DB::table('photos as p')
 			->join('categories as c', 'p.category_id', '=', 'c.id')
@@ -225,7 +233,7 @@ class ImgController extends Controller
 			endif;
 
 			$name = 'MenuCategories';
-			$categories = $this->$name(); 
+			$categories = $this->$name();
 
 			$perpage = 8 ; 
 
@@ -288,7 +296,6 @@ class ImgController extends Controller
 					]
 					);
 
-
 				Session::flash('Successfully', 'Updated successfully'); 
 				return Redirect::to('photo/'.$request->id);
 
@@ -303,6 +310,7 @@ class ImgController extends Controller
 					'images' => $request->images,
 					]
 					);
+				
 				Session::flash('Successfully', 'Updated successfully');
 				return Redirect::to('photo/'.$request->id);
 				endif;

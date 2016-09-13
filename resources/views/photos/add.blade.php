@@ -74,11 +74,11 @@
                             <select name="categories" class="form-control bg-primary">
                                 <?php $i = 1;?>
                                 @foreach($categories as $row ) 
-                                    @if($i == 1)
-                                        <option value="{{ $row->id }}" selected="selected">{{$row->title}}</option>
-                                    @else
-                                        <option value="{{ $row->id }}">{{$row->title}}</option>
-                                    @endif
+                                @if($i == 1)
+                                <option value="{{ $row->id }}" selected="selected">{{$row->title}}</option>
+                                @else
+                                <option value="{{ $row->id }}">{{$row->title}}</option>
+                                @endif
                                 <?php $i++;?>
                                 @endforeach
                             </select>
@@ -86,18 +86,18 @@
                         </div>
                         <div class="form-group">
                             <div class="uploader">
-                               <input type="file" class="file-styled-primary" name="image">
-                               <span class="filename" style="-webkit-user-select: none;">No file selected</span>
-                               <span class="action btn bg-blue" style="-webkit-user-select: none;">Choose File</span>
-                           </div>
-                       </div>
-                       <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">New Photo <i class="icon-circle-right2 position-right"></i></button>
+                                <input type="file" class="file-styled-primary" name="image">
+                                <span class="filename" style="-webkit-user-select: none;">No file selected</span>
+                                <span class="action btn bg-blue" style="-webkit-user-select: none;">Choose File</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">New Photo <i class="icon-circle-right2 position-right"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 @endsection
