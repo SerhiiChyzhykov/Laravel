@@ -39,7 +39,7 @@
                     <img src="/{{ $row->images}}" alt="{{ $row->id}}">
                     <div class="caption-overflow">
                         <span>
-                            <a href="{{ $row->images}}" data-popup="lightbox" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-plus3"></i></a>
+                            <a href="/{{ $row->images}}" data-popup="lightbox" class="btn border-white text-white btn-flat btn-icon btn-rounded"><i class="icon-plus3"></i></a>
                             <a href="/photo/{{ $row->id}}" class="btn border-white text-white btn-flat btn-icon btn-rounded ml-5"><i class="icon-link2"></i></a>
                         </span>
                     </div>
