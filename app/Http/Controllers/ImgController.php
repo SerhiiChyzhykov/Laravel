@@ -242,7 +242,7 @@ class ImgController extends Controller
 			->select('p.title as photos_title', 'p.id', 'p.images', 'p.user_id', 'p.description',  'c.title as category_title' )
 			->where('p.category_id', $request->id)->paginate($perpage);
 
-			return view('home', [
+			return view('photos/category', [
 				'categories' => $categories,
 				'counts' => $counts,
 				'photos' => $photos,
