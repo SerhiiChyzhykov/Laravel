@@ -217,6 +217,7 @@ class ImgController extends Controller
 				'counts' => $counts,
 				'photos' => $photos,
 				'category' => $category,
+				'categories' => $category,
 				'messages' => $messages,
 				'login' => $login,
 				]);
