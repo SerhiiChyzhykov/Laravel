@@ -12,7 +12,6 @@ class AdminController extends Controller
     public function Index(Request $request){
         if (Auth::user()):
             return view('admin/index' , [
-                
 
                 ]);
         else:

@@ -48,7 +48,11 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="/assets/images/demo/users/face11.jpg" alt="">
+                    @if (Auth::user()->avatar != NULL)
+                    {{Auth::user()->name }}
+                    @else
+                    <img src="{{ url('/') }}/assets/images/demo/users/face11.jpg" alt="">
+                    @endif
                     <span>{{ Auth::user()->name }}</span>
                     <i class="caret"></i>
                 </a>
