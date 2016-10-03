@@ -51,7 +51,7 @@
                     @if (Auth::user()->avatar != NULL)
                     {{Auth::user()->name }}
                     @else
-                    <img src="{{ url('/') }}/assets/images/demo/users/face11.jpg" alt="">
+                    <img src="/assets/images/demo/users/face11.jpg" alt="face">
                     @endif
                     <span>{{ Auth::user()->name }}</span>
                     <i class="caret"></i>
